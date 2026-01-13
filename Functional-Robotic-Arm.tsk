@@ -1,0 +1,185 @@
+﻿version 3.00
+cm_version 1.0
+platform CM-530
+- 
+o main
+o begin
+o load param_dest:var:knt param_src:bool_num:1
+o load param_dest:aux:3:66 param_src:led_num:3
+o load param_dest:aux:4:66 param_src:led_num:3
+o while(1)
+o begin
+o wait param_src:cm:2 lop:== param_src:bool_num:0 rop:then
+o load param_dest:var:rec_data param_src:cm:1
+o compute param_dest:var:Direction param_src:var:rec_data aop:& param_src:rc100z_num:1023
+- 
+o if param_src:var:Direction lop:== param_src:rc100z_num:17 rop:then
+o begin
+o if param_src:var:knt lop:== param_src:bool_num:1 rop:then
+o begin
+o call faddr_dest:led
+o call faddr_dest:led
+o load param_dest:var:knt param_src:bool_num:0
+o end
+o elseif param_src:var:knt lop:== param_src:bool_num:0 rop:then
+o begin
+o call faddr_dest:led
+o load param_dest:var:knt param_src:bool_num:1
+o end
+o end
+o elseif param_src:var:Direction lop:== param_src:rc100z_num:1 rop:then
+o begin
+o call faddr_dest:go_back_pos
+o call faddr_dest:ileri
+o end
+o elseif param_src:var:Direction lop:== param_src:rc100z_num:2 rop:then
+o begin
+o call faddr_dest:go_back_pos
+o call faddr_dest:geri
+o end
+o elseif param_src:var:Direction lop:== param_src:rc100z_num:4 rop:then
+o begin
+o call faddr_dest:revolve_pos
+o call faddr_dest:sol
+o end
+o elseif param_src:var:Direction lop:== param_src:rc100z_num:8 rop:then
+o begin
+o call faddr_dest:revolve_pos
+o call faddr_dest:sag
+o end
+o elseif param_src:var:Direction lop:== param_src:rc100z_num:16 rop:&& param_src:var:knt lop:== param_src:bool_num:1 rop:then
+o begin
+o call faddr_dest:go_back_pos
+o end
+o elseif param_src:var:Direction lop:== param_src:rc100z_num:32 rop:&& param_src:var:knt lop:== param_src:bool_num:1 rop:then
+o begin
+o call faddr_dest:solx
+o call faddr_dest:ileri
+o end
+o elseif param_src:var:Direction lop:== param_src:rc100z_num:128 rop:&& param_src:var:knt lop:== param_src:bool_num:1 rop:then
+o begin
+o call faddr_dest:sagx
+o call faddr_dest:ileri
+o end
+o elseif param_src:var:Direction lop:== param_src:rc100z_num:16 rop:&& param_src:var:knt lop:== param_src:bool_num:0 rop:then
+o begin
+o load param_dest:motion:1:50 param_src:dec_num:1
+o end
+o elseif param_src:var:Direction lop:== param_src:rc100z_num:32 rop:&& param_src:var:knt lop:== param_src:bool_num:0 rop:then
+o begin
+o load param_dest:motion:1:50 param_src:dec_num:2
+o end
+o elseif param_src:var:Direction lop:== param_src:rc100z_num:64 rop:&& param_src:var:knt lop:== param_src:bool_num:0 rop:then
+o begin
+o load param_dest:motion:1:50 param_src:dec_num:3
+o end
+o elseif param_src:var:Direction lop:== param_src:rc100z_num:128 rop:&& param_src:var:knt lop:== param_src:bool_num:0 rop:then
+o begin
+o load param_dest:motion:1:50 param_src:dec_num:4
+o end
+o else
+o begin
+o call faddr_dest:dur
+o end
+o end
+o end
+- 
+o function faddr_src:ileri
+o begin
+o load param_dest:motor:4:107 param_src:dir_num:1023
+o load param_dest:motor:8:107 param_src:dir_num:1023
+o load param_dest:motor:9:107 param_src:dir_num:2047
+o load param_dest:motor:16:107 param_src:dir_num:2047
+o end
+- 
+o function faddr_src:geri
+o begin
+o load param_dest:motor:4:107 param_src:dir_num:2047
+o load param_dest:motor:8:107 param_src:dir_num:2047
+o load param_dest:motor:9:107 param_src:dir_num:1023
+o load param_dest:motor:16:107 param_src:dir_num:1023
+o end
+- 
+o function faddr_src:sol
+o begin
+o load param_dest:motor:4:107 param_src:dir_num:2047
+o load param_dest:motor:8:107 param_src:dir_num:2047
+o load param_dest:motor:9:107 param_src:dir_num:2047
+o load param_dest:motor:16:107 param_src:dir_num:2047
+o end
+- 
+o function faddr_src:sag
+o begin
+o load param_dest:motor:4:107 param_src:dir_num:1023
+o load param_dest:motor:8:107 param_src:dir_num:1023
+o load param_dest:motor:9:107 param_src:dir_num:1023
+o load param_dest:motor:16:107 param_src:dir_num:1023
+o end
+- 
+o function faddr_src:dur
+o begin
+o load param_dest:motor:4:107 param_src:dir_num:0
+o load param_dest:motor:8:107 param_src:dir_num:0
+o load param_dest:motor:9:107 param_src:dir_num:0
+o load param_dest:motor:16:107 param_src:dir_num:0
+o end
+- 
+o function faddr_src:revolve_pos
+o begin
+o call faddr_dest:pos_velocity
+o load param_dest:motor:1:106 param_src:position_num:425
+o load param_dest:motor:2:106 param_src:position_num:598
+o load param_dest:motor:5:106 param_src:position_num:598
+o load param_dest:motor:6:106 param_src:position_num:425
+o end
+- 
+o function faddr_src:go_back_pos
+o begin
+o call faddr_dest:pos_velocity
+o load param_dest:motor:1:106 param_src:position_num:512
+o load param_dest:motor:2:106 param_src:position_num:512
+o load param_dest:motor:5:106 param_src:position_num:512
+o load param_dest:motor:6:106 param_src:position_num:512
+o end
+- 
+o function faddr_src:sagx
+o begin
+o call faddr_dest:pos_velocity
+o load param_dest:motor:1:106 param_src:position_num:655
+o load param_dest:motor:2:106 param_src:position_num:655
+o load param_dest:motor:5:106 param_src:position_num:655
+o load param_dest:motor:6:106 param_src:position_num:655
+o end
+- 
+o function faddr_src:solx
+o begin
+o call faddr_dest:pos_velocity
+o load param_dest:motor:1:106 param_src:position_num:368
+o load param_dest:motor:2:106 param_src:position_num:368
+o load param_dest:motor:5:106 param_src:position_num:368
+o load param_dest:motor:6:106 param_src:position_num:368
+o end
+- 
+o function faddr_src:gecikme
+o begin
+o load param_dest:cm:5 param_src:timer_num:4
+o wait param_src:cm:5 lop:!= param_src:timer_num:0 rop:then
+o end
+- 
+o function faddr_src:led
+o begin
+o load param_dest:aux:3:66 param_src:led_num:0
+o load param_dest:aux:4:66 param_src:led_num:0
+o call faddr_dest:gecikme
+o load param_dest:aux:3:66 param_src:led_num:3
+o load param_dest:aux:4:66 param_src:led_num:3
+o call faddr_dest:gecikme
+o end
+- 
+o function faddr_src:pos_velocity
+o begin
+o load param_dest:motor:1:107 param_src:dec_num:256
+o load param_dest:motor:2:107 param_src:dec_num:256
+o load param_dest:motor:5:107 param_src:dec_num:256
+o load param_dest:motor:6:107 param_src:dec_num:256
+o end
